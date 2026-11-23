@@ -209,9 +209,11 @@ private:
 			frame.data[i] = picture->data[i];
 			frame.linesize[i] = (uint32_t)picture->linesize[i];
 		}
-		const bool full_range = picture->color_range == AVCOL_RANGE_JPEG || picture->format == AV_PIX_FMT_YUVJ420P ||
+		const bool full_range = picture->color_range == AVCOL_RANGE_JPEG ||
+					picture->format == AV_PIX_FMT_YUVJ420P ||
 					(picture->color_range == AVCOL_RANGE_UNSPECIFIED && full_range_);
-		const bool bt601 = picture->colorspace == AVCOL_SPC_BT470BG || picture->colorspace == AVCOL_SPC_SMPTE170M;
+		const bool bt601 = picture->colorspace == AVCOL_SPC_BT470BG ||
+				   picture->colorspace == AVCOL_SPC_SMPTE170M;
 		set_frame_color(frame, !bt601, full_range);
 		sink(frame);
 	}

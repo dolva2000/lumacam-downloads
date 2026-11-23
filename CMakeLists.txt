@@ -65,10 +65,11 @@ target_sources(
 if(APPLE)
   target_link_libraries(
     ${CMAKE_PROJECT_NAME}
-    PRIVATE "$<LINK_LIBRARY:FRAMEWORK,VideoToolbox.framework>"
-            "$<LINK_LIBRARY:FRAMEWORK,CoreMedia.framework>"
-            "$<LINK_LIBRARY:FRAMEWORK,CoreVideo.framework>"
-            "$<LINK_LIBRARY:FRAMEWORK,CoreFoundation.framework>"
+    PRIVATE
+      "$<LINK_LIBRARY:FRAMEWORK,VideoToolbox.framework>"
+      "$<LINK_LIBRARY:FRAMEWORK,CoreMedia.framework>"
+      "$<LINK_LIBRARY:FRAMEWORK,CoreVideo.framework>"
+      "$<LINK_LIBRARY:FRAMEWORK,CoreFoundation.framework>"
   )
 else()
   find_package(PkgConfig QUIET)
@@ -90,6 +91,8 @@ endif()
 
 if(WIN32)
   target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE ws2_32 iphlpapi)
+  # windows.h defines min/max macros that break std::min / std::max.
+  target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE NOMINMAX)
 endif()
 
 # Bonjour discovery: built into macOS; avahi-compat-libdns_sd on Linux; Bonjour SDK on Windows.

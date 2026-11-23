@@ -136,7 +136,8 @@ bool identify(net::Socket &socket, Identity &identity, int timeout_ms, const std
 		    !lcp::decode_header(header_bytes, header, error))
 			return false;
 		payload.resize(header.length);
-		if (header.length && !socket.recv_exact(payload.data(), payload.size(), stop, kIdentifyTimeoutMs, error))
+		if (header.length &&
+		    !socket.recv_exact(payload.data(), payload.size(), stop, kIdentifyTimeoutMs, error))
 			return false;
 		if ((lcp::MessageType)header.type != lcp::MessageType::Identity)
 			continue;

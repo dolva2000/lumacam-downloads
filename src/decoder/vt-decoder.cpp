@@ -41,7 +41,7 @@ public:
 		for (const auto &unit : units) {
 			const uint8_t type = lcp::nal_type(config.codec, unit);
 			const bool is_param = config.codec == lcp::Codec::HEVC ? (type >= 32 && type <= 34)
-									      : (type == 7 || type == 8);
+									       : (type == 7 || type == 8);
 			if (is_param) {
 				pointers.push_back(unit.data);
 				sizes.push_back(unit.size);
@@ -55,8 +55,9 @@ public:
 		CMVideoFormatDescriptionRef format = nullptr;
 		OSStatus status;
 		if (config.codec == lcp::Codec::HEVC) {
-			status = CMVideoFormatDescriptionCreateFromHEVCParameterSets(
-				kCFAllocatorDefault, pointers.size(), pointers.data(), sizes.data(), 4, nullptr, &format);
+			status = CMVideoFormatDescriptionCreateFromHEVCParameterSets(kCFAllocatorDefault,
+										     pointers.size(), pointers.data(),
+										     sizes.data(), 4, nullptr, &format);
 		} else {
 			status = CMVideoFormatDescriptionCreateFromH264ParameterSets(
 				kCFAllocatorDefault, pointers.size(), pointers.data(), sizes.data(), 4, &format);
@@ -170,8 +171,8 @@ private:
 		return true;
 	}
 
-	static void on_output(void *, void *frame_refcon, OSStatus status, VTDecodeInfoFlags,
-			      CVImageBufferRef image, CMTime, CMTime)
+	static void on_output(void *, void *frame_refcon, OSStatus status, VTDecodeInfoFlags, CVImageBufferRef image,
+			      CMTime, CMTime)
 	{
 		auto *context = static_cast<DecodeContext *>(frame_refcon);
 		if (!context)

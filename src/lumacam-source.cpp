@@ -456,8 +456,8 @@ bool LumaCamSource::handle_phone_error(const std::string &json, std::string &err
 
 bool LumaCamSource::send_message(lcp::MessageType type, const std::string &payload)
 {
-	const auto packet = lcp::build_packet(type, 0, (uint64_t)(os_gettime_ns() / 1000), payload.data(),
-					      payload.size());
+	const auto packet =
+		lcp::build_packet(type, 0, (uint64_t)(os_gettime_ns() / 1000), payload.data(), payload.size());
 	std::lock_guard<std::mutex> lock(socket_mutex_);
 	if (!socket_)
 		return false;
@@ -747,13 +747,14 @@ std::string LumaCamSource::status_text()
 		 s.device.empty() ? "LumaCam" : s.device.c_str(), via.c_str());
 	text += line;
 	if (s.width > 0) {
-		snprintf(line, sizeof(line), "%d×%d · %.1f fps · %s · %.1f Mbps\n", s.width, s.height,
-			 s.received_fps, s.codec.c_str(), s.bitrate / 1e6);
+		snprintf(line, sizeof(line), "%d×%d · %.1f fps · %s · %.1f Mbps\n", s.width, s.height, s.received_fps,
+			 s.codec.c_str(), s.bitrate / 1e6);
 		text += line;
 	}
 	if (s.battery >= 0) {
-		snprintf(line, sizeof(line), "%s %d%%%s · %s %s", T("Status.Battery"), (int)std::lround(s.battery * 100),
-			 s.charging ? T("Status.Charging") : "", T("Status.Thermal"), s.thermal.c_str());
+		snprintf(line, sizeof(line), "%s %d%%%s · %s %s", T("Status.Battery"),
+			 (int)std::lround(s.battery * 100), s.charging ? T("Status.Charging") : "", T("Status.Thermal"),
+			 s.thermal.c_str());
 		text += line;
 		if (s.throttled) {
 			text += " · ";
@@ -826,7 +827,8 @@ obs_properties_t *LumaCamSource::properties()
 	obs_properties_add_text(conn, "host", T("Host"), OBS_TEXT_DEFAULT);
 	obs_properties_add_int(conn, "port", T("Port"), 1024, 65535, 1);
 	obs_properties_add_group(props, "group_connection", T("Group.Connection"), OBS_GROUP_NORMAL, conn);
-	obs_property_set_long_description(obs_properties_get(props, "group_connection"), T("Group.Connection.Description"));
+	obs_property_set_long_description(obs_properties_get(props, "group_connection"),
+					  T("Group.Connection.Description"));
 
 	/* Video */
 	obs_properties_t *video = obs_properties_create();
@@ -912,11 +914,12 @@ obs_properties_t *LumaCamSource::properties()
 	obs_property_list_add_string(exposure, T("Mode.Auto"), "auto");
 	obs_property_list_add_string(exposure, T("Mode.Manual"), "manual");
 	obs_property_set_modified_callback(exposure, on_exposure_modified);
-	obs_property_t *ev = obs_properties_add_float_slider(controls, "exposure_bias", T("ExposureBias"), -3.0, 3.0, 0.1);
+	obs_property_t *ev =
+		obs_properties_add_float_slider(controls, "exposure_bias", T("ExposureBias"), -3.0, 3.0, 0.1);
 	obs_property_float_set_suffix(ev, " EV");
 	obs_properties_add_int_slider(controls, "iso", T("ISO"), 25, 6400, 1);
-	obs_property_t *shutter = obs_properties_add_list(controls, "shutter", T("Shutter"), OBS_COMBO_TYPE_LIST,
-							  OBS_COMBO_FORMAT_INT);
+	obs_property_t *shutter =
+		obs_properties_add_list(controls, "shutter", T("Shutter"), OBS_COMBO_TYPE_LIST, OBS_COMBO_FORMAT_INT);
 	for (int value : {24, 25, 30, 48, 50, 60, 100, 120, 125, 250, 500, 1000, 2000, 4000, 8000})
 		obs_property_list_add_int(shutter, ("1/" + std::to_string(value) + " s").c_str(), value);
 
@@ -953,17 +956,27 @@ void LumaCamSource::register_source()
 	info.type = OBS_SOURCE_TYPE_INPUT;
 	info.output_flags = OBS_SOURCE_ASYNC_VIDEO | OBS_SOURCE_DO_NOT_DUPLICATE;
 	info.icon_type = OBS_ICON_TYPE_CAMERA;
-	info.get_name = [](void *) { return T("LumaCam.Name"); };
+	info.get_name = [](void *) {
+		return T("LumaCam.Name");
+	};
 	info.create = [](obs_data_t *settings, obs_source_t *source) -> void * {
 		return new LumaCamSource(settings, source);
 	};
-	info.destroy = [](void *data) { delete static_cast<LumaCamSource *>(data); };
-	info.update = [](void *data, obs_data_t *settings) { static_cast<LumaCamSource *>(data)->update(settings); };
+	info.destroy = [](void *data) {
+		delete static_cast<LumaCamSource *>(data);
+	};
+	info.update = [](void *data, obs_data_t *settings) {
+		static_cast<LumaCamSource *>(data)->update(settings);
+	};
 	info.get_defaults = &LumaCamSource::defaults;
 	info.get_properties = [](void *data) -> obs_properties_t * {
 		return static_cast<LumaCamSource *>(data)->properties();
 	};
-	info.show = [](void *data) { static_cast<LumaCamSource *>(data)->show(); };
-	info.hide = [](void *data) { static_cast<LumaCamSource *>(data)->hide(); };
+	info.show = [](void *data) {
+		static_cast<LumaCamSource *>(data)->show();
+	};
+	info.hide = [](void *data) {
+		static_cast<LumaCamSource *>(data)->hide();
+	};
 	obs_register_source(&info);
 }

@@ -52,8 +52,8 @@ public:
 			std::string &error);
 
 	std::string peer_ip() const; // numeric address of the other end ("" if unknown)
-	void configure_stream(); // TCP_NODELAY, larger receive buffer, send timeout
-	void shutdown();         // unblocks a thread waiting on this socket
+	void configure_stream();     // TCP_NODELAY, larger receive buffer, send timeout
+	void shutdown();             // unblocks a thread waiting on this socket
 	void close();
 	bool valid() const { return fd_ != kInvalidSocket; }
 

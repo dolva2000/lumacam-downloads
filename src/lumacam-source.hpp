@@ -61,8 +61,8 @@ private:
 	struct PhoneStatus {
 		bool connected = false;
 		connector::Route route = connector::Route::Usb;
-		std::string host;     // IP address when connected over the network
-		std::string device;   // phone name
+		std::string host;   // IP address when connected over the network
+		std::string device; // phone name
 		std::string model;
 		std::string app;
 		std::string decoder;
@@ -102,9 +102,9 @@ private:
 	std::atomic<bool> running_{false};
 	std::mutex wake_mutex_;
 	std::condition_variable wake_cv_;
-	int retry_delay_ms_ = 1500;      // worker thread only: wait before the next attempt
-	std::string remembered_host_;    // worker thread only: last network address that worked
-	std::string applied_look_;       // worker thread only: look the LUT filter is set to
+	int retry_delay_ms_ = 1500;   // worker thread only: wait before the next attempt
+	std::string remembered_host_; // worker thread only: last network address that worked
+	std::string applied_look_;    // worker thread only: look the LUT filter is set to
 
 	std::mutex socket_mutex_;
 	net::Socket *socket_ = nullptr; // valid while a session is open

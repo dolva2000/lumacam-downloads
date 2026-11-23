@@ -44,9 +44,9 @@ namespace {
 
 bool is_private(uint32_t a)
 {
-	return (a >> 24) == 10 ||                     // 10.0.0.0/8
-	       (a >> 20) == ((172u << 4) | 1u) ||     // 172.16.0.0/12
-	       (a >> 16) == ((192u << 8) | 168u);     // 192.168.0.0/16
+	return (a >> 24) == 10 ||                 // 10.0.0.0/8
+	       (a >> 20) == ((172u << 4) | 1u) || // 172.16.0.0/12
+	       (a >> 16) == ((192u << 8) | 168u); // 192.168.0.0/16
 }
 
 bool set_nonblocking(native_socket fd)
@@ -105,9 +105,9 @@ std::vector<Interface> private_ipv4_interfaces()
 	ULONG status = ERROR_BUFFER_OVERFLOW;
 	for (int attempt = 0; attempt < 3 && status == ERROR_BUFFER_OVERFLOW; attempt++) {
 		buffer.reset(new uint8_t[size]);
-		status = GetAdaptersAddresses(AF_INET,
-					      GAA_FLAG_SKIP_ANYCAST | GAA_FLAG_SKIP_MULTICAST | GAA_FLAG_SKIP_DNS_SERVER,
-					      nullptr, reinterpret_cast<IP_ADAPTER_ADDRESSES *>(buffer.get()), &size);
+		status = GetAdaptersAddresses(
+			AF_INET, GAA_FLAG_SKIP_ANYCAST | GAA_FLAG_SKIP_MULTICAST | GAA_FLAG_SKIP_DNS_SERVER, nullptr,
+			reinterpret_cast<IP_ADAPTER_ADDRESSES *>(buffer.get()), &size);
 	}
 	if (status != NO_ERROR)
 		return result;
@@ -205,7 +205,8 @@ void scan_batch(const uint32_t *targets, size_t count, uint16_t port, int timeou
 	const auto deadline = clock::now() + std::chrono::milliseconds(timeout_ms);
 	std::vector<pollfd_t> fds;
 	while (!probes.empty() && !stop.load()) {
-		const auto left = std::chrono::duration_cast<std::chrono::milliseconds>(deadline - clock::now()).count();
+		const auto left =
+			std::chrono::duration_cast<std::chrono::milliseconds>(deadline - clock::now()).count();
 		if (left <= 0)
 			break;
 		fds.assign(probes.size(), pollfd_t{});

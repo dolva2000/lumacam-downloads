@@ -32,11 +32,11 @@ enum class Route {
 
 enum class Failure {
 	None,
-	NoPhone,       // nothing answered anywhere
-	CodeNeeded,    // no phone on USB and no (valid) code to look on the network
-	NoMatch,       // phones answered on the network, none with this code
-	UsbNotFound,   // a specific USB device was selected and is not plugged in
-	ManualFailed,  // the typed address did not answer
+	NoPhone,      // nothing answered anywhere
+	CodeNeeded,   // no phone on USB and no (valid) code to look on the network
+	NoMatch,      // phones answered on the network, none with this code
+	UsbNotFound,  // a specific USB device was selected and is not plugged in
+	ManualFailed, // the typed address did not answer
 	Stopped,
 };
 
@@ -44,7 +44,7 @@ struct Request {
 	std::string mode = "auto"; // "auto" | "network" | "manual" | "usb:<serial>" | "wifi:<bonjour name>"
 	std::string host;          // manual mode
 	uint16_t port = 4848;
-	std::string code;          // 4 digits, may be empty
+	std::string code;            // 4 digits, may be empty
 	std::string remembered_host; // last address that worked, tried first
 };
 
