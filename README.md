@@ -11,10 +11,11 @@ en **USB** sans aucun réglage ou **sans fil** avec un code à 4 chiffres.
 |---|---|
 | [`lumacam-obs-macos.pkg`](https://github.com/dolva2000/lumacam-downloads/releases/latest/download/lumacam-obs-macos.pkg) | Plugin OBS Studio pour Mac (OBS 31 ou plus récent) |
 | [`LumaCam-mac.dmg`](https://github.com/dolva2000/lumacam-downloads/releases/latest/download/LumaCam-mac.dmg) | App LumaCam pour Mac : aperçu et webcam virtuelle pour Zoom, Teams, Meet, FaceTime… |
+| [`lumacam-obs-windows-x64.zip`](https://github.com/dolva2000/lumacam-downloads/releases/latest/download/lumacam-obs-windows-x64.zip) | Plugin OBS Studio pour Windows 10 et 11 (bêta) — copiez le dossier `lumacam-obs` dans `C:\ProgramData\obs-studio\plugins\` |
 | App iPhone | Sur l'App Store |
 
 Toutes les versions sont dans les [Releases](https://github.com/dolva2000/lumacam-downloads/releases).
-La version Windows du plugin est en préparation.
+Sous Windows, la connexion USB demande l'app « Appareils Apple » (Microsoft Store) ou iTunes.
 
 ## Utilisation
 
